@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CryptSync</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_sources">Sources</string>
+    <string name="nav_schedule">Schedule</string>
+    <string name="nav_security">Security</string>
+    <string name="nav_logs">Logs</string>
+
+    <string name="home_live_mirror_title">This is a live mirror, not a vault</string>
+    <string name="home_live_mirror_body">Deleting media on your phone removes it from the next backup too. Never delete originals expecting to find them here. CryptSync exists to recover a lost or broken phone.</string>
+    <string name="home_ready">Ready</string>
+    <string name="home_compressed_cache">Compressed cache: %1$s</string>
+    <string name="home_drive_usage">Drive: %1$s of %2$s used</string>
+    <string name="home_back_up_now">Back up now</string>
+    <string name="home_backing_up">Backing up…</string>
+    <string name="home_backup_percent">Uploading: %1$d%%</string>
+    <string name="home_over_limit_title">Backup paused: over your storage limit</string>
+    <string name="home_over_limit_body">The backup needs %1$s but your limit is %2$s. Lower the video or image bitrate on the Schedule tab, or raise the limit, then back up again.</string>
+    <string name="home_cancel">Cancel</string>
+    <string name="home_disconnect_drive">Disconnect Google Drive</string>
+    <string name="home_connect_drive_title">Connect Google Drive</string>
+    <string name="home_connect_drive_body">CryptSync uses rclone\'s built in Drive access, so there is nothing to register. On a computer with rclone installed, run:</string>
+    <string name="home_rclone_command" translatable="false">rclone authorize \"drive\"</string>
+    <string name="home_connect_drive_paste_hint">Sign in when the browser opens, then paste the whole token it prints below.</string>
+    <string name="home_paste_token_label">Paste rclone token</string>
+    <string name="home_connect">Connect</string>
+    <string name="home_password_title">Set your encryption password</string>
+    <string name="home_password_body">This password encrypts every backup. It is hashed locally, and you will need it to restore on a new phone or a PC.</string>
+    <string name="home_password_label">Password</string>
+    <string name="home_confirm_password_label">Confirm password</string>
+    <string name="home_create_repository">Create encrypted repository</string>
+    <string name="debug_backend_title">Debug: custom rclone backend</string>
+    <string name="debug_backend_body">Debug builds only. Paste an rclone remote body (type, url, keys) to point the backup at a self hosted server such as WebDAV or MinIO, so you can test without Google. The repository lands under a cryptsync path on that remote.</string>
+    <string name="debug_backend_label">rclone remote body</string>
+    <string name="debug_backend_hint" translatable="false">type = webdav\nurl = http://192.168.1.10:8080\nvendor = other</string>
+    <string name="debug_backend_connect">Connect test backend</string>
+
+    <string name="sources_title">Sources</string>
+    <string name="sources_dir_camera">Camera (DCIM)</string>
+    <string name="sources_dir_pictures">Pictures</string>
+    <string name="sources_dir_movies">Movies</string>
+    <string name="sources_dir_downloads">Downloads</string>
+    <string name="sources_dir_whatsapp">WhatsApp media and chats</string>
+    <string name="sources_what_can_title">What gets backed up</string>
+    <string name="sources_what_can_body">CryptSync backs up every file in the folders you choose. Photos and videos are re-encoded to shrink them, everything else is stored as is. With all files access it can also reach app folders under Android/media, such as WhatsApp\'s media and chat databases. It cannot reach private data under Android/data, so apps like Signal need their own exported backup.</string>
+    <string name="sources_media_permission_body">If you only want photos and videos and would rather not grant all files access, allow access to your media instead. Android grants this for your whole photo and video library at once.</string>
+    <string name="sources_media_permission_grant">Allow photos and videos</string>
+    <string name="sources_path_not_present">%1$s (not present)</string>
+    <string name="sources_full_access_title">Full file access</string>
+    <string name="sources_full_access_body">Needed to back up non-media files such as documents or app databases. It lets CryptSync read everything in the folders you choose.</string>
+    <string name="sources_full_access_granted">Granted</string>
+    <string name="sources_full_access_grant">Grant all files access</string>
+    <string name="sources_locations_title">Backup locations</string>
+    <string name="sources_locations_body">Every file in these folders is backed up: photos and videos re-encoded to save space, everything else stored as is. Backing up non-media needs all files access above.</string>
+    <string name="sources_quick_add">Quick add</string>
+    <string name="sources_locations_empty">No locations yet. Add a folder with the buttons or the field below.</string>
+    <string name="sources_remove">Remove</string>
+    <string name="sources_extra_path_hint" translatable="false">/storage/emulated/0/…</string>
+    <string name="sources_add_path">Add path</string>
+
+    <string name="schedule_title">Schedule</string>
+    <string name="schedule_how_often">How often</string>
+    <string name="schedule_run_at">Run at %1$d:00</string>
+    <string name="schedule_charging_only">Only while charging</string>
+    <string name="schedule_wifi_only">Wi-Fi / unmetered only</string>
+    <string name="schedule_compression">Compression</string>
+    <string name="schedule_reencode_media">Re-encode photos and videos</string>
+    <string name="schedule_reencode_media_body">On, media is re-encoded smaller with the settings below. Off, photos and videos are stored as they are, which suits media another app already compressed. Everything still gets restic\'s lossless compression on upload.</string>
+    <string name="schedule_video_codec">Video codec</string>
+    <string name="schedule_video_bitrate">Video bitrate: %1$d kbps</string>
+    <string name="schedule_audio_bitrate">Audio bitrate: %1$d kbps</string>
+    <string name="schedule_image_format">Image format</string>
+    <string name="schedule_image_quality">Image quality: %1$d</string>
+    <string name="schedule_storage_limit_title">Storage limit</string>
+    <string name="schedule_storage_limit_body">Cap how large the backup can grow. A backup that would go over the cap pauses and does not upload. Lower the video and image bitrate above to fit more in. Leave empty for no limit.</string>
+    <string name="schedule_storage_limit_current">Current remote size: %1$s</string>
+    <string name="schedule_storage_limit_reading">Reading remote size…</string>
+    <string name="schedule_storage_limit_unavailable">Remote size unavailable, take a backup first or reconnect.</string>
+    <string name="schedule_storage_limit_label">Limit in GB</string>
+    <string name="schedule_storage_limit_none">No limit set, backups run regardless of size.</string>
+    <string name="notify_limit_title">Backup paused: storage limit reached</string>
+    <string name="notify_limit_text">Your backup is %1$s, over your %2$s limit. Lower the video and image bitrate on the Schedule tab, or raise the limit.</string>
+    <string name="activity_backup_over_limit">Paused, archive %1$s is over your %2$s limit</string>
+
+    <string name="codec_hevc" translatable="false">HEVC (H.265)</string>
+    <string name="codec_av1" translatable="false">AV1</string>
+    <string name="codec_hw_supported">%1$s: hardware accelerated on this device</string>
+    <string name="codec_hw_unsupported">%1$s: no hardware encoder here, encoding may fail or be slow</string>
+    <string name="image_format_heic">HEIC (hardware)</string>
+    <string name="frequency_manual">Manual only</string>
+    <string name="frequency_hourly">Every hour</string>
+    <string name="frequency_daily">Every day</string>
+    <string name="frequency_weekly">Every week</string>
+    <string name="frequency_monthly">Every month</string>
+    <string name="network_unmetered">Wi-Fi / unmetered only</string>
+    <string name="network_any">Any network</string>
+
+    <string name="security_title">Security</string>
+    <string name="security_change_password">Change password</string>
+    <string name="security_current_password">Current password</string>
+    <string name="security_new_password">New password</string>
+    <string name="security_confirm_new_password">Confirm new password</string>
+    <string name="security_saved_keys">Saved keys</string>
+    <string name="security_saved_keys_body">Each key is a password that can unlock the repository. Old keys stay valid until you remove them. Removing the key you currently use will lock you out, so keep at least one you know.</string>
+    <string name="security_keys_loading">Reading keys from the repository…</string>
+    <string name="security_current_key">Current key</string>
+    <string name="security_key_named">Key %1$s</string>
+    <string name="security_remove">Remove</string>
+    <string name="security_integrity_title">Repository integrity</string>
+    <string name="security_integrity_body">Verify the backup in your cloud is complete and undamaged. If data chunks are missing, CryptSync lists the files that may be affected.</string>
+    <string name="security_integrity_check">Check integrity</string>
+    <string name="security_integrity_healthy">Intact, no problems found.</string>
+    <string name="security_integrity_damaged">The backup in your cloud is damaged.</string>
+    <plurals name="security_integrity_missing_packs">
+        <item quantity="one">%1$d data pack missing from the cloud</item>
+        <item quantity="other">%1$d data packs missing from the cloud</item>
+    </plurals>
+    <string name="security_integrity_missing_pack_id">Missing pack %1$s</string>
+    <string name="security_integrity_generic_error">The repository reports errors, see the details below.</string>
+    <string name="security_integrity_affected_title">Files that may be lost:</string>
+    <string name="security_integrity_details_show">Show technical details</string>
+    <string name="security_integrity_details_hide">Hide technical details</string>
+    <string name="check_healthy">Backup is intact, no problems found</string>
+    <string name="check_problems">Backup is damaged, %1$d files affected</string>
+    <string name="security_integrity_repair">Repair and back up again</string>
+    <string name="security_integrity_repair_body">Rebuild the index and run a backup. Files whose originals are still on this phone are re-uploaded.</string>
+    <string name="check_repair_started">Index rebuilt, a backup is running to re-upload recoverable files</string>
+    <string name="check_repair_failed">Could not repair the repository, see the logs</string>
+
+    <string name="restore_title">Restore</string>
+    <string name="restore_before_body">Restore app data while the app is freshly installed and unopened, or clear that app\'s data (not just its cache) first. You can also restore the whole repository on a PC with restic.</string>
+    <string name="restore_none">No backup to restore yet. Run a backup first, then it shows up here.</string>
+    <string name="restore_last_backup">Last backup: %1$s</string>
+    <string name="restore_confirm_title">Restore onto this phone?</string>
+    <string name="restore_confirm_body">This writes files back into the folders below. For a clean recovery these folders should be empty: on a phone that already has files or opened apps, restored files can overwrite or mix with what is there. Restore onto a fresh phone before opening the apps.</string>
+    <string name="restore_confirm_dirs_label">The backup contains:</string>
+    <string name="restore_confirm_no_dirs">Could not read the folder list from the backup. Continue only if you know the target folders are empty.</string>
+    <string name="restore_confirm_proceed">Restore</string>
+    <string name="restore_confirm_cancel">Cancel</string>
+    <string name="restore_in_place">Restore in place</string>
+    <string name="restore_in_place_hint">Puts media back in your gallery, files back where they came from, and restores your settings.</string>
+    <string name="restore_to_app_folder">Restore to app folder</string>
+    <string name="restore_to_app_folder_hint">Writes a plain copy into the app\'s own files, leaving your phone untouched.</string>
+
+    <string name="msg_drive_connected">Google Drive connected</string>
+    <string name="msg_repository_ready">Repository ready</string>
+    <string name="msg_password_changed">Password changed</string>
+    <string name="msg_backup_started">Backup started</string>
+    <string name="msg_backup_cancelled">Backup cancelled</string>
+    <string name="msg_drive_disconnected">Google Drive disconnected</string>
+    <string name="msg_restored_to">Restored to %1$s</string>
+    <string name="msg_restore_media_count">%1$d media restored to the gallery</string>
+    <string name="msg_restore_files_count">%1$d files put back in place</string>
+    <string name="msg_restore_already_present">%1$d already in your gallery</string>
+    <string name="msg_restore_media_failed">%1$d could not be added to the gallery, see the logs</string>
+    <string name="msg_restore_skipped_count">%1$d skipped, grant all files access to restore them</string>
+    <string name="msg_restore_lost_count">%1$d files could not be restored, they are missing from the backup</string>
+
+    <string name="setup_welcome_title">Welcome to CryptSync</string>
+    <string name="setup_welcome_body">CryptSync keeps a live, encrypted copy of your media and chosen files in your own Google Drive, and can put it all back on a new phone. Is this a fresh start, or are you recovering from a backup?</string>
+    <string name="setup_fresh_title">Set up fresh</string>
+    <string name="setup_fresh_body">Connect Drive, pick an encryption password, and choose what to back up.</string>
+    <string name="setup_restore_title">Restore from a backup</string>
+    <string name="setup_restore_body">New or wiped phone? Connect the Drive that holds your backup and put everything back, including your sources and settings.</string>
+    <string name="setup_restore_password_title">Unlock your backup</string>
+    <string name="setup_restore_password_body">Enter the encryption password you used on your old phone. It unlocks the backup so you can restore it.</string>
+    <string name="setup_restore_password_label">Backup password</string>
+    <string name="setup_unlock">Unlock backup</string>
+    <string name="setup_pick_snapshot_title">Restore your backup</string>
+    <string name="setup_pick_snapshot_body">This puts your media, files, and settings back on this phone. Media returns to your gallery.</string>
+    <string name="setup_restore_this">Restore this backup</string>
+    <string name="setup_sources_title">Choose your sources</string>
+    <string name="setup_sources_body">Pick the folders to back up and grant access below. You can change any of this later on the Sources tab.</string>
+    <string name="setup_finish">Finish setup</string>
+    <string name="setup_back">Back</string>
+    <string name="setup_backup_unlocked">Backup unlocked</string>
+    <string name="setup_wrong_password">That password did not unlock the backup</string>
+    <string name="setup_config_restored">sources and settings restored</string>
+
+    <string name="nav_activity">Activity</string>
+    <string name="activity_title">Activity</string>
+    <string name="activity_subtitle">A record of what you did in the app and how each action turned out. Keeps the most recent 200 entries.</string>
+    <string name="activity_empty">No activity yet. Backups, restores, and security changes show up here.</string>
+    <string name="activity_clear">Clear activity</string>
+    <string name="activity_action_backup">Backup</string>
+    <string name="activity_action_restore">Restore</string>
+    <string name="activity_action_password">Password change</string>
+    <string name="activity_action_key_removed">Key removed</string>
+    <string name="activity_action_integrity">Integrity check</string>
+    <string name="activity_action_repair">Repair backup</string>
+    <string name="activity_password_detail">A new key was added and set as the one in use</string>
+    <string name="activity_key_removed_detail">Removed key %1$s</string>
+    <string name="activity_backup_requested">Backup requested, running in the background</string>
+    <string name="activity_backup_complete">%1$d files backed up (%2$s)</string>
+    <string name="activity_backup_failed">Upload failed, it will retry automatically</string>
+    <string name="activity_backup_compression_failed">Compression failed, it will retry automatically</string>
+    <string name="activity_backup_nothing">Nothing to back up, no media or files selected</string>
+
+    <string name="logs_title">Logs</string>
+    <string name="logs_subtitle">A running record of backups and errors, newest first. Keeps the most recent 500 entries.</string>
+    <string name="logs_empty">No activity yet. Logs appear here once a backup or restore runs.</string>
+    <string name="logs_clear">Clear logs</string>
+    <string name="logs_save">Save to file</string>
+    <string name="logs_saved">Logs saved</string>
+    <string name="logs_save_failed">Could not save the logs</string>
+    <string name="logs_file_name">cryptsync-logs.txt</string>
+</resources>

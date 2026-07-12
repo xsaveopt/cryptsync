@@ -1,0 +1,11 @@
+repo_url: https://xsaveopt.github.io/cryptsync/fdroid/repo
+repo_name: CryptSync
+repo_description: >
+  Self hosted F-Droid repository for CryptSync, a live encrypted sync and
+  restore app for Android. Builds are produced and signed by GitHub Actions
+  and the logs are public so you can verify what shipped.
+archive_older: 0
+keystore: {env: KEYSTORE_PATH}
+repo_keyalias: {env: KEY_ALIAS}
+keystorepass: {env: KEYSTORE_PASS}
+keypass: {env: KEY_PASS}

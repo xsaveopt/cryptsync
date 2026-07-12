@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install SDK packages
+        run: yes | sdkmanager "platforms;android-36" "build-tools;36.0.0" >/dev/null
+
+      - name: Lint
+        run: mise exec -- ./gradlew lintDebug --no-configuration-cache
+
+      - name: Unit tests
+        run: mise exec -- ./gradlew testDebugUnitTest --no-configuration-cache
+
+      - name: Assemble debug
+        run: mise exec -- ./gradlew assembleDebug --no-configuration-cache

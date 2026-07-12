@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install SDK packages
+        run: yes | sdkmanager "platforms;android-36" "build-tools;36.0.0" >/dev/null
+
+      - name: Build native binaries
+        run: mise exec -- ./tools/build-native-binaries.sh
+
+      - name: Verify native binary checksums
+        run: shasum -a 256 -c tools/native-binaries.sha256
+
+      - name: Decode keystore
+        env:
+          CRYPTSYNC_KEYSTORE_BASE64: ${{ secrets.CRYPTSYNC_KEYSTORE_BASE64 }}
+        run: echo "$CRYPTSYNC_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+
+      - name: Assemble signed release
+        env:
+          CRYPTSYNC_KEYSTORE: ${{ runner.temp }}/release.keystore
+          CRYPTSYNC_KEYSTORE_PASSWORD: ${{ secrets.CRYPTSYNC_KEYSTORE_PASSWORD }}
+          CRYPTSYNC_KEY_ALIAS: ${{ secrets.CRYPTSYNC_KEY_ALIAS }}
+          CRYPTSYNC_KEY_PASSWORD: ${{ secrets.CRYPTSYNC_KEY_PASSWORD }}
+        run: mise exec -- ./gradlew assembleRelease --no-configuration-cache
+
+      - name: Install fdroidserver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fdroidserver apksigner
+
+      - name: Build F-Droid repository
+        env:
+          KEYSTORE_PATH: ${{ runner.temp }}/release.keystore
+          KEYSTORE_PASS: ${{ secrets.CRYPTSYNC_KEYSTORE_PASSWORD }}
+          KEY_PASS: ${{ secrets.CRYPTSYNC_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.CRYPTSYNC_KEY_ALIAS }}
+        run: |
+          mkdir -p fdroid/repo
+          cp app/build/outputs/apk/release/*.apk fdroid/repo/
+          cd fdroid
+          fdroid update --create-metadata --verbose
+          fdroid readmeta
+
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./fdroid
+          destination_dir: fdroid
+          keep_files: true
+
+      - name: Attach APK to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/build/outputs/apk/release/*.apk
