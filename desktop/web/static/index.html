@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CryptSync Browser</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>CryptSync Browser</h1>
+      <p class="sub">Browse and extract files from your encrypted backup.</p>
+    </header>
+
+    <main>
+      <section id="connect" class="panel">
+        <h2>Connect</h2>
+        <div class="tabs">
+          <button class="tab active" data-mode="drive">Google Drive</button>
+          <button class="tab" data-mode="raw">Other remote</button>
+        </div>
+
+        <div id="pane-drive" class="pane">
+          <button id="oauth-btn">Sign in with Google Drive</button>
+          <p id="oauth-status" class="status"></p>
+          <details class="advanced">
+            <summary>Paste a token manually</summary>
+            <p class="hint">
+              Run <code>rclone authorize "drive"</code> on any computer and paste the token it
+              prints.
+            </p>
+            <textarea
+              id="token"
+              rows="3"
+              placeholder='{"access_token":"...","token_type":"Bearer",...}'
+            ></textarea>
+          </details>
+        </div>
+
+        <div id="pane-raw" class="pane hidden">
+          <label>rclone remote configuration</label>
+          <p class="hint">
+            Paste the body of an rclone remote (S3, WebDAV, …), the same one the phone uses. A
+            leading <code>[name]</code> header is optional.
+          </p>
+          <textarea
+            id="body"
+            rows="5"
+            placeholder="type = s3&#10;provider = Minio&#10;access_key_id = ...&#10;secret_access_key = ...&#10;endpoint = ..."
+          ></textarea>
+        </div>
+
+        <label>Repository password</label>
+        <input id="password" type="password" placeholder="Backup password" />
+
+        <details class="advanced">
+          <summary>Advanced</summary>
+          <label>Remote name</label>
+          <input id="remote" type="text" placeholder="gdrive" />
+          <label>Repository prefix</label>
+          <input id="prefix" type="text" placeholder="cryptsync" />
+        </details>
+
+        <button id="connect-btn" class="primary">Connect</button>
+        <p id="connect-status" class="status"></p>
+      </section>
+
+      <section id="browser" class="panel hidden">
+        <div class="browser-head">
+          <h2>Your files</h2>
+          <div class="actions">
+            <label class="select-all"><input id="select-all" type="checkbox" /> Select all</label>
+            <button id="download-btn" class="primary" disabled>Download selected (.zip)</button>
+            <button id="disconnect-btn">Disconnect</button>
+          </div>
+        </div>
+        <p id="browser-status" class="status"></p>
+        <div
+          id="tree"
+          class="tree"
+          role="tree"
+          aria-multiselectable="true"
+          aria-label="Backup files"
+        ></div>
+      </section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

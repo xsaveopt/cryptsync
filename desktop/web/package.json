@@ -1,0 +1,23 @@
+{
+  "name": "cryptsync-browser-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "typecheck": "tsc",
+    "lint": "oxlint src test scripts",
+    "lint:fix": "oxlint --fix src test scripts",
+    "fmt": "oxfmt src test scripts static",
+    "fmt:check": "oxfmt --check src test scripts static",
+    "test": "node --test 'test/**/*.test.ts'"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "esbuild": "^0.28.1",
+    "oxfmt": "^0.59.0",
+    "oxlint": "^1.74.0",
+    "typescript": "^7.0.2"
+  },
+  "packageManager": "pnpm@11.15.1"
+}

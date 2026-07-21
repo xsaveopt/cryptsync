@@ -1,0 +1,87 @@
+name: Desktop CI
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "desktop/**"
+      - ".github/workflows/desktop-ci.yml"
+  pull_request:
+    paths:
+      - "desktop/**"
+      - ".github/workflows/desktop-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: Build web, then build & test Go
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 26
+
+      - name: Install pnpm
+        working-directory: desktop/web
+        run: npm install -g "pnpm@$(node -p "require('./package.json').packageManager.split('@')[1].split('+')[0]")"
+
+      - name: Resolve pnpm store
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
+
+      - uses: actions/cache@v6
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('desktop/web/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+
+      - name: Install web deps
+        working-directory: desktop/web
+        run: pnpm install --frozen-lockfile
+
+      - name: Web lint, format, typecheck & test
+        working-directory: desktop/web
+        run: pnpm lint && pnpm fmt:check && pnpm typecheck && pnpm test
+
+      - name: Build web
+        working-directory: desktop/web
+        run: pnpm build
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: desktop/go.mod
+          cache: false
+
+      - name: gofmt
+        working-directory: desktop
+        run: |
+          out=$(gofmt -l .)
+          if [ -n "$out" ]; then
+            echo "$out"
+            echo "::error::gofmt found issues; run 'gofmt -w .'"
+            exit 1
+          fi
+
+      - name: go vet
+        working-directory: desktop
+        run: go vet ./...
+
+      - name: go test
+        working-directory: desktop
+        run: go test ./...
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: latest
+          working-directory: desktop
+
+      - name: Cross-build
+        working-directory: desktop
+        run: |
+          for pair in linux/amd64 linux/arm64 windows/amd64 darwin/amd64 darwin/arm64; do
+            GOOS=${pair%/*} GOARCH=${pair#*/} go build -trimpath -ldflags "-X main.version=dev-${GITHUB_SHA::7}" -o /dev/null ./...
+          done
