@@ -13,7 +13,7 @@ data class Argon2Hash(val saltBase64: String, val hashBase64: String) {
     companion object {
         fun decode(value: String): Argon2Hash {
             val parts = value.split(":")
-            require(parts.size == 2) { "Malformed Argon2 hash" }
+            require(parts.size == 2 && parts.none { it.isEmpty() }) { "Malformed Argon2 hash" }
             return Argon2Hash(parts[0], parts[1])
         }
     }
