@@ -17,10 +17,8 @@ jobs:
 
       - uses: jdx/mise-action@v4
 
-      - uses: android-actions/setup-android@v4
-
       - name: Install SDK packages
-        run: yes | sdkmanager "platforms;android-36" "build-tools;36.0.0" >/dev/null
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0" >/dev/null
 
       - name: Lint
         run: mise exec -- ./gradlew lintDebug --no-configuration-cache
